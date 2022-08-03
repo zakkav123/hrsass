@@ -5,6 +5,10 @@ router.beforeEach((to, from, next) => {
   const token = store.state.user.token
   const idTopath = ['/login', '/404']
   if (token) {
+    // 页面刷新获取用户信息
+    if (!store.state.user.userInfo.userId) {
+      store.dispatch('user/getUserInfo')
+    }
     //1.登录
     // 是否进入登录页
     to.path === '/login' ? next('/') : next()

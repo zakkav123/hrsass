@@ -14,6 +14,7 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import * as directive from './directives/index'
 
 /**
  * If you don't want to use mock-server
@@ -34,10 +35,14 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+// 自定义指令
+for (let key in directive) {
+  Vue.directive(key, directive[key])
+}
 
 new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App)
 })
