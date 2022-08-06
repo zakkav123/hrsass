@@ -13,4 +13,16 @@ export function delDepartments(id) {
   })
 }
 
+export function putDepartments(id) {
+  return request({
+    url: `/company/department/${id}`
+  })
+}
 
+export function Departments(data) {
+  return request({
+    url: `/company/department/${data.id}`,
+    method: 'put',
+    data
+  })
+}
