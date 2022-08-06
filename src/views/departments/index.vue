@@ -6,6 +6,7 @@
         <Treetools
           :isRoot="true"
           :treeNode="{ name: '传智教育', manager: '负责人' }"
+          @add="Visible = true"
         ></Treetools>
         <!-- 树状结构 -->
         <el-tree
@@ -14,10 +15,20 @@
           :default-expand-all="true"
         >
           <template v-slot="{ data }">
-            <Treetools :treeNode="data"></Treetools>
+            <Treetools
+              :treeNode="data"
+              @add="addNodeShow"
+              @delDepts="getDepartments"
+            ></Treetools>
           </template>
         </el-tree>
       </el-card>
+      <!-- 弹出层添加 -->
+      <AddDept
+        @addSuccess="getDepartments"
+        :dialogVisible.sync="Visible"
+        :addNode="cuttenNode"
+      ></AddDept>
     </div>
   </div>
 </template>
@@ -26,6 +37,7 @@
 import Treetools from './components/Treetools.vue'
 import { getDepartments } from '@/api/departments'
 import { transListToTree } from '@/utils/index'
+import AddDept from './components/add-dept.vue'
 export default {
   data() {
     return {
@@ -36,11 +48,14 @@ export default {
       ],
       defaultProps: {
         label: 'name'
-      }
+      },
+      Visible: false,
+      cuttenNode: {}
     }
   },
   components: {
-    Treetools
+    Treetools,
+    AddDept
   },
   created() {
     this.getDepartments()
@@ -49,8 +64,11 @@ export default {
   methods: {
     async getDepartments() {
       const res = await getDepartments()
-      console.log(res)
       this.treeData = transListToTree(res.depts, '')
+    },
+    addNodeShow(val) {
+      this.cuttenNode = val
+      this.Visible = true
     }
   }
 }
