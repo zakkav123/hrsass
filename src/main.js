@@ -15,8 +15,8 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import * as directive from './directives/index'
+import * as filters from '././filter/index'
 import components from './components'
-
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -41,6 +41,11 @@ Vue.config.productionTip = false
 // 自定义指令
 for (let key in directive) {
   Vue.directive(key, directive[key])
+}
+
+// 时间过滤器
+for (let key in filters) {
+  Vue.filter(key, filters[key])
 }
 
 new Vue({
